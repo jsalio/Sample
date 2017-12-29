@@ -4,6 +4,7 @@ import { FirebaseListObservable } from 'angularfire2/database-deprecated';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase/app';
+import { FireBaseProviderService } from './repository/data/cloud/fire-base-provider.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,15 @@ import * as firebase from 'firebase/app';
 })
 export class AppComponent {
   title = 'app';
-  constructor(private firedb: AngularFireDatabase) {
-  this.firedb.list('users').valueChanges().subscribe(data => console.log(data));
+  constructor(private firedbser: FireBaseProviderService) {
+    /*this.firedb.list('users').valueChanges().subscribe(data => console.log(data));*/
+    this.firedbser._Schema = 'users';
+    this.firedbser.GetList().subscribe(data => console.log(data));
+    this.firedbser.GetList().subscribe(data => {
+      for (let x = 0; x < data.length; x++ ) {
+        console.log(data[x]);
+      }
+    });
+    this.firedbser.getData();
   }
 }

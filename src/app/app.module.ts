@@ -12,14 +12,15 @@ import { AngularFireModule } from 'angularfire2';
 // New imports to update based on AngularFire2 version 4
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { FireBaseProviderService } from './repository/data/cloud/fire-base-provider.service';
 
 export const firebaseConfig = {
-  apiKey: '',
-  authDomain: '',
-  databaseURL: '',
-  projectId: '',
-  storageBucket: '',
-  messagingSenderId: ''
+  apiKey: 'AIzaSyAg3FwnanfF7PaOzidzUIxJa4BL-ABCwNg',
+  authDomain: 'storemarket-b39df.firebaseapp.com',
+  databaseURL: 'https://storemarket-b39df.firebaseio.com',
+  projectId: 'storemarket-b39df',
+  storageBucket: 'storemarket-b39df.appspot.com',
+  messagingSenderId: '334860482052'
 };
 
 @NgModule({
@@ -34,7 +35,7 @@ export const firebaseConfig = {
     AngularFireAuthModule,
     CoreModule
   ],
-  providers: [],
+  providers: [FireBaseProviderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
