@@ -1,0 +1,46 @@
+.appmenu{
+    max-width: 208.5px;
+}
+.linkactive{
+    background: rgb(26, 127, 209);
+}
+.appmenu a{
+    color: rgb(16, 86, 104);
+}
+  /*
+   * Sidebar
+   */
+  
+   .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    border-right: 1px solid #eee;
+  }
+  
+  /* Sidebar navigation */
+  .sidebar {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  .sidebar .nav {
+    margin-bottom: 20px;
+  }
+  
+  .sidebar .nav-item {
+    width: 100%;
+  }
+  
+  .sidebar .nav-item + .nav-item {
+    margin-left: 0;
+  }
+  
+  .sidebar .nav-link {
+    border-radius: 0;
+  }
