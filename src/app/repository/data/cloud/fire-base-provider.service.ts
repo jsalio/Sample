@@ -6,8 +6,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { SubscribableOrPromise } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
 import { FirebaseApp } from 'angularfire2';
-import { log } from 'util';
-import { exists } from 'fs';
 import { DatabaseReference } from 'angularfire2/database-deprecated/interfaces';
 
 @Injectable()
