@@ -14,14 +14,20 @@ import { FireBaseProviderService } from './repository/data/cloud/fire-base-provi
 export class AppComponent {
   title = 'app';
   constructor(private firedbser: FireBaseProviderService) {
-    /*this.firedb.list('users').valueChanges().subscribe(data => console.log(data));*/
     this.firedbser._Schema = 'users';
+    this.firedbser._FilterSearch = 'UserName';
     this.firedbser.GetList().subscribe(data => console.log(data));
     this.firedbser.GetList().subscribe(data => {
       for (let x = 0; x < data.length; x++ ) {
         console.log(data[x]);
       }
     });
-    this.firedbser.getData();
+    console.log( this.firedbser.getData('master13'));
+    const newItem = {
+      UserName: 'xyz123',
+      Passwd: '13@@qr',
+      Token: 'zd1qwr'
+    };
+  //  console.log( this.firedbser.insertInSchema(newItem));
   }
 }

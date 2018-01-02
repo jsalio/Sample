@@ -5,15 +5,18 @@ import { Subscribable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { SubscribableOrPromise } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
+import { FirebaseApp } from 'angularfire2';
+import { log } from 'util';
+import { exists } from 'fs';
+import { DatabaseReference } from 'angularfire2/database-deprecated/interfaces';
 
 @Injectable()
 export class FireBaseProviderService {
 
   public _Schema: any;
-  public _Config: any;
-  db: AngularFireDatabase;
+  public _FilterSearch: any;
+
   constructor(private firedb: AngularFireDatabase) {
-    /*this._Config = firedb;*/
   }
 
   public InitSchema(table: any): void {
@@ -24,9 +27,29 @@ export class FireBaseProviderService {
     return this.firedb.list(this._Schema).valueChanges();
   }
 
-  public getData(): void {
-    const t = this.firedb.database.ref(this._Schema).orderByChild('UserName').equalTo('Master13').toJSON();
-    console.log(t);
+  public getData(user: any): void {
+    const _ref = this.firedb.database.ref(this._Schema);
+    _ref.orderByChild(this._FilterSearch).startAt(user).endAt(user).on('child_added', function (snap) {
+      console.log(snap.toJSON());
+    });
   }
 
+  public insertInSchema(structItem: any): any {
+    const dbref = this.firedb.database.ref(this._Schema);
+    const id = dbref.push(structItem);
+    return id.key;
+  }
+
+  public updateInSchema(structItem: any, refId: any): void {
+    const dbref = this.firedb.database.ref(this._Schema);
+    if (this.existsEstruct(dbref, structItem, refId)) {
+    }
+  }
+
+  private existsEstruct(dbref: DatabaseReference, newItem: any, refid: any): boolean {
+    dbref.orderByChild(this._FilterSearch).startAt(refid).endAt(refid).on('child_added', function (snap) {
+      return true;
+    });
+    return false;
+  }
 }
