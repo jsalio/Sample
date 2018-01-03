@@ -16,20 +16,18 @@ export class AppComponent {
   constructor(private firedbser: FireBaseProviderService) {
     this.firedbser._Schema = 'users';
     this.firedbser._FilterSearch = 'UserName';
-    this.onStart();
     const newItem = {
       UserName: 'xyz123',
       Passwd: '13@@qreds',
       Token: 'zd1qwr'
     };
-    this.firedbser.GetId(newItem.UserName);
-    console.log(this.firedbser._Keys);
+    this.validateItemExist(newItem);
   }
 
   onStart() {
     this.firedbser.GetList().subscribe(data => console.log(data));
     this.firedbser.GetList().subscribe(data => {
-      for (let x = 0; x < data.length; x++ ) {
+      for (let x = 0; x < data.length; x++) {
         console.log(data[x]);
       }
     });
@@ -40,6 +38,16 @@ export class AppComponent {
       Token: 'zd1qwr'
     };
     this.firedbser.updateInSchema(newItem, '-L1rJR8xtLQZ7Sa2IEIo');
-  //  console.log( this.firedbser.insertInSchema(newItem));
+    //  console.log( this.firedbser.insertInSchema(newItem));
+  }
+
+  validateItemExist(newItem: any) {
+    this.firedbser.GetList().subscribe(function (data) {
+      for (let x = 0; x < data.length; x++) {
+        if (data[x].UserName === newItem.UserName) {
+          console.log('Data already exist');
+        }
+      }
+    });
   }
 }

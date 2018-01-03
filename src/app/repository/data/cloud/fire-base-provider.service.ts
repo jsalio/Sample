@@ -7,6 +7,9 @@ import { SubscribableOrPromise } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
 import { FirebaseApp } from 'angularfire2';
 import { DatabaseReference } from 'angularfire2/database-deprecated/interfaces';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { promise } from 'selenium-webdriver';
+import { Promise } from 'q';
 
 @Injectable()
 export class FireBaseProviderService {
@@ -15,6 +18,7 @@ export class FireBaseProviderService {
   public _FilterSearch: any;
   public _SelectOne: Observable<any>;
   public _Keys: Observable<any>;
+  public _existData: boolean;
 
   constructor(private firedb: AngularFireDatabase) {
   }
@@ -42,7 +46,8 @@ export class FireBaseProviderService {
   }
 
   public GetId(structItem: any): void {
-    this.firedb.database.ref(this._Schema).on('child_added', function (dta) { this.snapshotToArray(dta); });
+    const dbref = this.firedb.database.ref(this._Schema);
+    console.log(this.existsEstruct(dbref, structItem, 'master13'));
   }
 
   public updateInSchema(structItem: any, refId: any): void {
@@ -53,22 +58,20 @@ export class FireBaseProviderService {
     this.firedb.database.ref(this._Schema).child(refId).remove().then();
   }
 
-  private existsEstruct(dbref: DatabaseReference, newItem: any, refid: any): boolean {
-    // dbref.orderByChild(this._FilterSearch).startAt(refid).endAt(refid).on('child_added', function (snap) {
-    //   return true;
-    // });
-    return false;
+  public existsEstruct(dbref: DatabaseReference, newItem: any, refid: any) {
+   this.firedb.list(this._Schema).valueChanges().subscribe(dta => {
+      for ( let x = 0 ; x <= dta.length ; x++) {
+        if (newItem === dta[x]) {
+          return true;
+        }
+      }
+    });
   }
 
   private unsubcribe(): void {
   }
 
-  ///Esto no funciona
-  private snapshotToArray(snapshot): void {
-    snapshot.forEach(function (childSnapshot) {
-      const item = childSnapshot.val();
-      item.key = childSnapshot.key;
-      this._Keys.push(childSnapshot.key);
-    });
+  public dataExists(exists: boolean): void {
+    this._existData = exists;
   }
 }
