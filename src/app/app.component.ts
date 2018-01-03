@@ -13,15 +13,15 @@ import { FireBaseProviderService } from './repository/data/cloud/fire-base-provi
 })
 export class AppComponent {
   title = 'app';
+  newItem = {
+    UserName: 'xyz123',
+    Passwd: '13@@qreds',
+    Token: 'zd1qwr'
+  };
   constructor(private firedbser: FireBaseProviderService) {
     this.firedbser._Schema = 'users';
     this.firedbser._FilterSearch = 'UserName';
-    const newItem = {
-      UserName: 'xyz123',
-      Passwd: '13@@qreds',
-      Token: 'zd1qwr'
-    };
-    this.validateItemExist(newItem);
+    this.validateItemExist(this.newItem);
   }
 
   onStart() {
