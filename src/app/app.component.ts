@@ -16,6 +16,17 @@ export class AppComponent {
   constructor(private firedbser: FireBaseProviderService) {
     this.firedbser._Schema = 'users';
     this.firedbser._FilterSearch = 'UserName';
+    this.onStart();
+    const newItem = {
+      UserName: 'xyz123',
+      Passwd: '13@@qreds',
+      Token: 'zd1qwr'
+    };
+    this.firedbser.GetId(newItem.UserName);
+    console.log(this.firedbser._Keys);
+  }
+
+  onStart() {
     this.firedbser.GetList().subscribe(data => console.log(data));
     this.firedbser.GetList().subscribe(data => {
       for (let x = 0; x < data.length; x++ ) {
@@ -25,9 +36,10 @@ export class AppComponent {
     this.firedbser.getData('master13').subscribe(data => console.log(data));
     const newItem = {
       UserName: 'xyz123',
-      Passwd: '13@@qr',
+      Passwd: '13@@qreds',
       Token: 'zd1qwr'
     };
+    this.firedbser.updateInSchema(newItem, '-L1rJR8xtLQZ7Sa2IEIo');
   //  console.log( this.firedbser.insertInSchema(newItem));
   }
 }

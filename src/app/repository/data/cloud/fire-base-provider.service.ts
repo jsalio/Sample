@@ -13,7 +13,8 @@ export class FireBaseProviderService {
 
   public _Schema: any;
   public _FilterSearch: any;
-  public SelectOne: Observable<any>;
+  public _SelectOne: Observable<any>;
+  public _Keys: Observable<any>;
 
   constructor(private firedb: AngularFireDatabase) {
   }
@@ -26,7 +27,7 @@ export class FireBaseProviderService {
     return this.firedb.list(this._Schema).valueChanges();
   }
 
-  public getData(user: any):  Observable<any> {
+  public getData(user: any): Observable<any> {
     // const _ref = this.firedb.database.ref(this._Schema);
     // _ref.orderByChild(this._FilterSearch).startAt(user).endAt(user).on('child_added', function (snap) {
     //   console.log(snap.toJSON());
@@ -40,16 +41,34 @@ export class FireBaseProviderService {
     return id.key;
   }
 
+  public GetId(structItem: any): void {
+    this.firedb.database.ref(this._Schema).on('child_added', function (dta) { this.snapshotToArray(dta); });
+  }
+
   public updateInSchema(structItem: any, refId: any): void {
-    const dbref = this.firedb.database.ref(this._Schema);
-    if (this.existsEstruct(dbref, structItem, refId)) {
-    }
+    this.firedb.database.ref(this._Schema).child(refId).set(structItem).then();
+  }
+
+  public deleteNode(refId: any): void {
+    this.firedb.database.ref(this._Schema).child(refId).remove().then();
   }
 
   private existsEstruct(dbref: DatabaseReference, newItem: any, refid: any): boolean {
-    dbref.orderByChild(this._FilterSearch).startAt(refid).endAt(refid).on('child_added', function (snap) {
-      return true;
-    });
+    // dbref.orderByChild(this._FilterSearch).startAt(refid).endAt(refid).on('child_added', function (snap) {
+    //   return true;
+    // });
     return false;
+  }
+
+  private unsubcribe(): void {
+  }
+
+  ///Esto no funciona
+  private snapshotToArray(snapshot): void {
+    snapshot.forEach(function (childSnapshot) {
+      const item = childSnapshot.val();
+      item.key = childSnapshot.key;
+      this._Keys.push(childSnapshot.key);
+    });
   }
 }
