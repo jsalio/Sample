@@ -22,7 +22,7 @@ export class AppComponent {
         console.log(data[x]);
       }
     });
-    console.log( this.firedbser.getData('master13'));
+    this.firedbser.getData('master13').subscribe(data => console.log(data));
     const newItem = {
       UserName: 'xyz123',
       Passwd: '13@@qr',

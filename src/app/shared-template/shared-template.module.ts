@@ -15,7 +15,8 @@ import { UnknowUrlComponent } from './unknow-url/unknow-url.component';
   ],
   exports: [
     MenuHeadComponent,
-    RightMenuComponent
+    RightMenuComponent,
+    UnknowUrlComponent
   ]
 })
 export class SharedTemplateModule { }

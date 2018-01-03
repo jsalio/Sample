@@ -13,6 +13,7 @@ export class FireBaseProviderService {
 
   public _Schema: any;
   public _FilterSearch: any;
+  public SelectOne: Observable<any>;
 
   constructor(private firedb: AngularFireDatabase) {
   }
@@ -25,11 +26,12 @@ export class FireBaseProviderService {
     return this.firedb.list(this._Schema).valueChanges();
   }
 
-  public getData(user: any): void {
-    const _ref = this.firedb.database.ref(this._Schema);
-    _ref.orderByChild(this._FilterSearch).startAt(user).endAt(user).on('child_added', function (snap) {
-      console.log(snap.toJSON());
-    });
+  public getData(user: any):  Observable<any> {
+    // const _ref = this.firedb.database.ref(this._Schema);
+    // _ref.orderByChild(this._FilterSearch).startAt(user).endAt(user).on('child_added', function (snap) {
+    //   console.log(snap.toJSON());
+    // });
+    return this.firedb.list(this._Schema, ref => ref.orderByChild('UserName').equalTo('master13')).valueChanges();
   }
 
   public insertInSchema(structItem: any): any {
